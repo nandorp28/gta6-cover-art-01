@@ -3,20 +3,94 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Cover Snap</title>
+<title>Vice City Nights — GTA-style Cover Maker</title>
+<link rel="icon" href="data:,">
 <link rel="stylesheet" href="./style.css">
 </head>
 <body>
 <main class="app">
-  <section class="controls">
-    <h1>Cover Snap</h1>
-    <p>A photo and a caption, made into a square cover.</p>
-    <label>Photo <input id="photo" type="file" accept="image/*"></label>
-    <label>Caption <input id="caption" type="text" maxlength="40" value="Sunset Heist"></label>
-    <button id="export" type="button">Export PNG 1080 x 1080</button>
-    <p id="status" role="status"></p>
+  <section class="controls" aria-label="Cover editor">
+    <header class="brand">
+      <h1>VICE CITY <span>NIGHTS</span></h1>
+      <p>Turn your photo into a multi-panel poster cover. Everything stays on your machine — nothing is uploaded.</p>
+    </header>
+
+    <div class="group">
+      <h2>1 · Photos</h2>
+      <label class="filebtn">Add photos from your machine
+        <input id="photos" type="file" accept="image/*" multiple>
+      </label>
+      <div class="row">
+        <button id="demoPhotos" type="button" class="ghost">Use demo photos</button>
+        <button id="fillAll" type="button" class="ghost">Fill all panels with photo 1</button>
+      </div>
+      <div id="photoTray" class="tray" aria-label="Loaded photos"></div>
+      <p class="hint">Click a panel in the preview to select it, then drag the photo inside it to reposition.</p>
+    </div>
+
+    <div class="group">
+      <h2>2 · Layout &amp; grade</h2>
+      <label>Layout
+        <select id="layout">
+          <option value="hero3">Hero + 3 panels</option>
+          <option value="grid4">Four-panel grid</option>
+          <option value="six">Six-panel grid</option>
+          <option value="duo">Two-panel split</option>
+        </select>
+      </label>
+      <div class="seg" id="gradeSeg" role="group" aria-label="Colour grade">
+        <button type="button" data-grade="sunset" class="on">Sunset</button>
+        <button type="button" data-grade="neon">Neon Nights</button>
+        <button type="button" data-grade="dusk">Palm Dusk</button>
+      </div>
+      <label>Selected panel photo
+        <select id="panelPhoto"></select>
+      </label>
+      <label>Zoom <span id="zoomVal">100%</span>
+        <input id="zoom" type="range" min="50" max="300" value="100">
+      </label>
+      <div class="row">
+        <button id="fitBtn" type="button" class="ghost">Fit</button>
+        <button id="fillBtn" type="button" class="ghost">Fill</button>
+        <button id="resetPan" type="button" class="ghost">Centre photo</button>
+      </div>
+    </div>
+
+    <div class="group">
+      <h2>3 · Caption</h2>
+      <label>Main title
+        <input id="title" type="text" maxlength="28" value="VICE CITY NIGHTS">
+      </label>
+      <label>Subtitle / tagline
+        <input id="subtitle" type="text" maxlength="48" value="One night. Every story.">
+      </label>
+      <label>Title size <span id="titleSizeVal">100%</span>
+        <input id="titleSize" type="range" min="60" max="160" value="100">
+      </label>
+      <div class="row">
+        <button id="posBottom" type="button" class="ghost on">Title at bottom</button>
+        <button id="posTop" type="button" class="ghost">Title at top</button>
+      </div>
+    </div>
+
+    <div class="group">
+      <h2>4 · Export</h2>
+      <label>Post size
+        <select id="exportSize">
+          <option value="1080x1350">Portrait · 1080 × 1350</option>
+          <option value="1080x1080">Square · 1080 × 1080</option>
+          <option value="1920x1080">Landscape · 1920 × 1080</option>
+        </select>
+      </label>
+      <button id="export" type="button" class="export">Export PNG ↓</button>
+      <p id="status" role="status">Add a photo to begin — or tap “Use demo photos”.</p>
+    </div>
   </section>
-  <canvas id="cover" width="1080" height="1080" aria-label="The cover"></canvas>
+
+  <section class="stage" aria-label="Live cover preview">
+    <canvas id="cover" width="1080" height="1350" aria-label="The cover preview"></canvas>
+    <p class="stageHint">Live preview — drag a panel photo to pan it · click a panel to select it</p>
+  </section>
 </main>
 <script type="module" src="./src/main.js"></script>
 </body>
